@@ -1,0 +1,387 @@
+/* ===== RegisterTutor ===== */
+
+/* ---- Page Wrapper ---- */
+.rt-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0b0b14 0%, #0f0f1a 50%, #0d1120 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 48px 16px 80px;
+}
+
+/* ---- Outer Container ---- */
+.rt-container {
+  width: 100%;
+  max-width: 780px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ---- Page Header ---- */
+.rt-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.rt-badge {
+  display: inline-block;
+  background: rgba(167, 139, 250, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  color: #a78bfa;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 100px;
+}
+
+.rt-title {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 700;
+  background: linear-gradient(90deg, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.rt-subtitle {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+/* ---- Form Card ---- */
+.rt-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  padding: 40px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(167, 139, 250, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ---- Sections ---- */
+.rt-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px 0;
+}
+
+.rt-section:first-of-type {
+  padding-top: 0;
+}
+
+.rt-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.3px;
+}
+
+.rt-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #a78bfa, #60a5fa);
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
+
+/* ---- Divider ---- */
+.rt-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+}
+
+/* ---- Grid Layouts ---- */
+.rt-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.rt-field--half {
+  max-width: calc(50% - 9px);
+}
+
+/* ---- Form Field ---- */
+.rt-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.rt-field label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.3px;
+}
+
+.rt-required {
+  color: #f87171;
+  margin-left: 2px;
+}
+
+.rt-field input,
+.rt-field select,
+.rt-field textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+.rt-field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.rt-field select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='rgba(255,255,255,0.4)' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+.rt-field select option {
+  background: #1a1a2e;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.rt-field input::placeholder,
+.rt-field textarea::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.rt-field input:focus,
+.rt-field select:focus,
+.rt-field textarea:focus {
+  border-color: rgba(167, 139, 250, 0.6);
+  background: rgba(167, 139, 250, 0.06);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
+}
+
+/* ---- Error Banner ---- */
+.rt-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: 10px;
+  color: #fca5a5;
+  padding: 12px 16px;
+  font-size: 0.87rem;
+  font-weight: 500;
+  margin-top: 8px;
+  animation: rt-shake 0.35s ease;
+}
+
+.rt-error-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: rgba(248, 113, 113, 0.15);
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+@keyframes rt-shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  60%       { transform: translateX(6px); }
+}
+
+/* ---- Action Buttons ---- */
+.rt-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.rt-btn-primary {
+  background: linear-gradient(135deg, #a78bfa, #60a5fa);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.4px;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 18px rgba(167, 139, 250, 0.35);
+  font-family: 'Inter', sans-serif;
+}
+
+.rt-btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #9061f9, #3b82f6);
+  box-shadow: 0 6px 24px rgba(167, 139, 250, 0.5);
+  transform: translateY(-1px);
+}
+
+.rt-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.rt-btn-secondary {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.rt-btn-secondary:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.rt-btn-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---- Loading Spinner ---- */
+.rt-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: rt-spin 0.7s linear infinite;
+}
+
+@keyframes rt-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Success Card ---- */
+.rt-success-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(167, 139, 250, 0.18);
+  border-radius: 20px;
+  padding: 56px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  animation: rt-fadeUp 0.5s ease;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.rt-success-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #a78bfa, #60a5fa);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(167, 139, 250, 0.4);
+  margin-bottom: 8px;
+}
+
+.rt-success-card h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rt-success-card p {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.93rem;
+  line-height: 1.65;
+  max-width: 360px;
+}
+
+@keyframes rt-fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .rt-card {
+    padding: 24px 20px;
+  }
+
+  .rt-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .rt-field--half {
+    max-width: 100%;
+  }
+
+  .rt-actions {
+    flex-direction: column-reverse;
+  }
+
+  .rt-btn-primary,
+  .rt-btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .rt-success-card {
+    padding: 40px 24px;
+  }
+}
