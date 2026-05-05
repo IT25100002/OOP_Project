@@ -24,8 +24,6 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/students")
-@CrossOrigin(origins = { "http://localhost:5173", "http://152.42.157.191", "https://hometutor-mu.vercel.app" },
-        originPatterns = { "https://*.vercel.app" })
 public class StudentRestController {
 
     @Autowired

@@ -1,10 +1,12 @@
 package com.university.hometutor.usermanagement;
 
+import com.university.hometutor.usermanagement.User;
 import com.university.hometutor.tutormanagement.TutorProfile;
+import com.university.hometutor.usermanagement.UserRepository;
 import com.university.hometutor.booking.BookingService;
 import com.university.hometutor.messaging.MassageService;
-import com.university.hometutor.Review.AppReviewService;
-import com.university.hometutor.Review.ReviewService;
+import com.university.hometutor.searchandfilter.AppReviewService;
+import com.university.hometutor.searchandfilter.ReviewService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -14,28 +16,42 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final TutorProfileRepository tutorProfileRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // @Lazy breaks the circular dependency: UserService <- BookingService <- UserService
-    @Autowired @Lazy
+    @Autowired
+    public UserService(UserRepository userRepository, TutorProfileRepository tutorProfileRepository,
+            PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.tutorProfileRepository = tutorProfileRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    // @Lazy breaks the circular dependency: UserService <- BookingService <-
+    // UserService
+    @Autowired
+    @Lazy
     private BookingService bookingService;
 
-    @Autowired @Lazy
+    @Autowired
+    @Lazy
     private MassageService massageService;
 
-    @Autowired @Lazy
+    @Autowired
+    @Lazy
     private AppReviewService appReviewService;
 
-    @Autowired @Lazy
+    @Autowired
+    @Lazy
     private ReviewService reviewService;
 
     public List<User> getAllStudents() {
@@ -65,9 +81,30 @@ public class UserService {
         user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
-    
+
     @Transactional
-    public User registerTutor(User user, TutorProfile profile) {
+    public User registerTutor(Map<String, Object> body) {
+
+        // Build User from the request body
+        User user = new User();
+        user.setName((String) body.get("name"));
+        user.setUsername((String) body.get("username"));
+        user.setEmail((String) body.get("email"));
+        user.setPassword((String) body.get("password"));
+        user.setRole("TUTOR");
+
+        // Build TutorProfile from the request body
+        TutorProfile profile = new TutorProfile();
+        profile.setSubject((String) body.get("subject"));
+        String bio = (String) body.get("bio");
+        profile.setBio(bio != null ? bio : "");
+
+        Object hourlyRateObj = body.get("hourlyRate");
+        if (hourlyRateObj != null) {
+            if (hourlyRateObj instanceof Number) {
+                profile.setHourlyRate(((Number) hourlyRateObj).doubleValue());
+            }
+        }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("TUTOR");
@@ -76,7 +113,6 @@ public class UserService {
         tutorProfileRepository.save(profile);
         return savedUser;
     }
-
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
@@ -97,28 +133,35 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        // Just return the user. Hibernate keeps the password,
-        // but @JsonIgnore will hide it from the web response.
+
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
-    //Register Admin
+    // Register Admin
     @Transactional
-    public User registerAdmin(User user) {
+    public User registerAdmin(Map<String, Object> body) {
+
+        User admin = new User();
+        admin.setName((String) body.get("name"));
+        admin.setUsername((String) body.get("username"));
+        admin.setEmail((String) body.get("email"));
+        admin.setPassword((String) body.get("password"));
+
         // 1. Check if username already exists
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+        if (userRepository.findByUsername(admin.getUsername()).isPresent()) {
             throw new RuntimeException("Admin username already taken.");
         }
 
         // 2. Encode password and set Admin role
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ADMIN");
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        admin.setRole("ADMIN");
 
-        return userRepository.save(user);
+        return userRepository.save(admin);
     }
 
-    //update password
+    // update password
+    @Transactional
     public void updatePassword(String email, String newPassword) {
 
         // 1. Find user
@@ -134,7 +177,5 @@ public class UserService {
         // 4. Save user
         userRepository.save(user);
     }
-
-
 
 }

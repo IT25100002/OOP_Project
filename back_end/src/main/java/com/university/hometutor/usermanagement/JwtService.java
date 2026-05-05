@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,9 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    
+
+
+
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
@@ -28,6 +31,7 @@ public class JwtService {
         return generateToken(new HashMap<>(), username);
     }
 
+    //Method overloading
     // 2. Generate token with extra claims (like roles, user ID) if needed
     public String generateToken(Map<String, Object> extraClaims, String username) {
         return Jwts.builder()
