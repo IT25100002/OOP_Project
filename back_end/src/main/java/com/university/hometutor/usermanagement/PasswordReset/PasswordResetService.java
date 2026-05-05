@@ -33,7 +33,7 @@ public class PasswordResetService {
         // System.out.println("Generated token: " + token);
 
         // 3. Create reset link
-        String resetLink = "https://hometutor-mu.vercel.app/PasswordReset?token=" + token;
+        String resetLink = "http://localhost:5173/PasswordReset?token=" + token;
 
         // 4. Send email
         String subject = "Password Reset Request Hometutor User ";
@@ -46,6 +46,7 @@ public class PasswordResetService {
 
         return tokenStore.get(token);
     }
+
     public void removeToken(String token) {
         tokenStore.remove(token);
     }

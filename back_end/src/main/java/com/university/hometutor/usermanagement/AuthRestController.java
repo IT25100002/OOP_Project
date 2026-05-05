@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -56,16 +57,16 @@ public class AuthRestController {
         String username = loginRequest.get("username");
         String password = loginRequest.get("password");
 
-       try {
+        try {
             // 1. Authenticate credentials (this throws an exception if wrong)
             Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
+                    new UsernamePasswordAuthenticationToken(username, password)
             );
 
             // 2. Fetch the user details from your database to build the profile
             // (Make sure your userService has a method like findByUsername!)
-            User user = userService.findByUsername(username); 
-            
+            User user = userService.findByUsername(username);
+
             if (user == null) {
                 return ResponseEntity.status(401).body(Map.of("error", "User not found."));
             }
@@ -88,7 +89,7 @@ public class AuthRestController {
 
             return ResponseEntity.ok(response);
 
-        } catch (org.springframework.security.core.AuthenticationException e) {
+        } catch (AuthenticationException e) {
             // Catch the exception thrown by authenticationManager if passwords don't match or other auth errors
             Map<String, String> error = new HashMap<>();
             error.put("error", "Invalid username or password.");
@@ -138,7 +139,7 @@ public class AuthRestController {
     // -------------------------------------------------------------------
     // POST /api/auth/register/tutor
     // Body: { "name": "...", "username": "...", "email": "...", "password": "...",
-    // "subject": "...", "hourlyRate": 500.0, "bio": "..." , otp:"..."}
+    // "subject": "...", "hourlyRate": 500.0, "bio": "..." }
     // -------------------------------------------------------------------
     @PostMapping("/register/tutor")
     public ResponseEntity<?> registerTutor(@RequestBody Map<String, Object> body) {
@@ -148,29 +149,7 @@ public class AuthRestController {
             if (!twoFactorAuthService.verifyOtp(email, otp)) {
                 return ResponseEntity.badRequest().body(Map.of("error", "Invalid or expired 2FA code"));
             }
-
-            // Build User from the request body
-            User user = new User();
-            user.setName((String) body.get("name"));
-            user.setUsername((String) body.get("username"));
-            user.setEmail((String) body.get("email"));
-            user.setPassword((String) body.get("password"));
-            user.setRole("TUTOR");
-
-            // Build TutorProfile from the request body
-            TutorProfile profile = new TutorProfile();
-            profile.setSubject((String) body.get("subject"));
-            String bio = (String) body.get("bio");
-            profile.setBio(bio != null ? bio : "");
-
-            Object hourlyRateObj = body.get("hourlyRate");
-            if (hourlyRateObj != null) {
-                if (hourlyRateObj instanceof Number) {
-                    profile.setHourlyRate(((Number) hourlyRateObj).doubleValue());
-                }
-            }
-
-            userService.registerTutor(user, profile);
+            userService.registerTutor(body);
             Map<String, String> response = new HashMap<>();
             response.put("message", "Tutor registered successfully.");
             return ResponseEntity.ok(response);
@@ -197,13 +176,7 @@ public class AuthRestController {
                 return ResponseEntity.status(403).body(Map.of("error", "Unauthorized: Invalid Secret Key"));
             }
 
-            User admin = new User();
-            admin.setName((String) body.get("name"));
-            admin.setUsername((String) body.get("username"));
-            admin.setEmail((String) body.get("email"));
-            admin.setPassword((String) body.get("password"));
-
-            userService.registerAdmin(admin);
+            userService.registerAdmin(body);
 
             return ResponseEntity.ok(Map.of("message", "Admin account created successfully."));
         } catch (Exception e) {
@@ -231,7 +204,7 @@ public class AuthRestController {
         }
         // Update password (IMPORTANT: hash it in real apps)
         // userService.updatePassword(email, newPassword);
-        userService.updatePassword(email,newPassword);
+        userService.updatePassword(email, newPassword);
         passwordResetService.removeToken(request.getToken());
         return ResponseEntity.ok("Password updated successfully!");
     }
