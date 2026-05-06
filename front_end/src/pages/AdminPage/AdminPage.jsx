@@ -434,7 +434,7 @@ export default function AdminPage() {
                          <td>#{m.id}</td>
                          <td>{m.timestamp ? new Date(m.timestamp).toLocaleDateString() : '—'}</td>
                          <td className="admin-name">{m.sender?.name || '—'}</td>
-                         <td>{m.email || '—'}</td>
+                         <td>{m.sender.email || '—'}</td>
                          <td style={{ maxWidth: 'auto', whiteSpace: 'wrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={m.message}>
                            {m.message || '—'}
                          </td>
