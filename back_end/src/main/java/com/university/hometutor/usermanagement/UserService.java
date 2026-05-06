@@ -5,8 +5,8 @@ import com.university.hometutor.tutormanagement.TutorProfile;
 import com.university.hometutor.usermanagement.UserRepository;
 import com.university.hometutor.booking.BookingService;
 import com.university.hometutor.messaging.MassageService;
-import com.university.hometutor.searchandfilter.AppReviewService;
-import com.university.hometutor.searchandfilter.ReviewService;
+import com.university.hometutor.Review.AppReviewService;
+import com.university.hometutor.Review.ReviewService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
