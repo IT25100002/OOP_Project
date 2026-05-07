@@ -5,8 +5,10 @@
 ### A full-stack web application for discovering tutors, managing bookings, and running student-tutor-admin workflows.
 
 ## Demo Video
+<video src="./assets/demo.mp4" controls width="100%">
+  Your browser does not support the video tag.
+</video>
 
-https://github.com/IT25100002/OOP_Project/raw/main/demo.mp4
 
 
 ![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
