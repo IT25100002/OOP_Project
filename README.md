@@ -4,7 +4,8 @@
 
 ### A full-stack web application for discovering tutors, managing bookings, and running student-tutor-admin workflows.
 
-<img src="assets/readme-banner.svg" alt="Home Tutor Search and Booking System" width="100%">
+## Demo Video
+https://github.com/user-attachments/assets/ed2b8641-13d8-4574-b20e-d364d4dc4122
 
 ![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
