@@ -1,5 +1,6 @@
 package com.university.hometutor.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.university.hometutor.usermanagement.CustomUserDetailsService;
 import com.university.hometutor.usermanagement.JwtAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -70,7 +74,7 @@ public class SecurityConfig {
             )
             .exceptionHandling(ex -> ex
                 .authenticationEntryPoint((request, response, authException) -> {
-                    response.sendError(jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
                 })
             )
             .authenticationProvider(authenticationProvider())
@@ -100,8 +104,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
-        org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
 
         // Use setAllowedOriginPatterns OR setAllowedOrigins, but be careful with wildcards
         configuration.setAllowedOriginPatterns(java.util.List.of(
@@ -116,7 +120,7 @@ public class SecurityConfig {
         // Important: Expose headers if your frontend needs to read them (like new JWTs)
         configuration.setExposedHeaders(java.util.List.of("Authorization"));
 
-        org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+       UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
         // Register for ALL paths, not just /api/** to ensure the filter catches everything
         source.registerCorsConfiguration("/**", configuration);
 
