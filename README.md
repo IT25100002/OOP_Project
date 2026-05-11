@@ -1,6 +1,29 @@
 <div align="center">
 
-# Home Tutor Search & Booking System
+<h1 style="
+  font-size: 3.5rem;
+  font-weight: 900;
+  background: linear-gradient(90deg,#00F5FF,#7B2FF7,#FF4FD8,#00F5FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 0 10px rgba(0,245,255,0.8),
+    0 0 20px rgba(123,47,247,0.8),
+    0 0 40px rgba(255,79,216,0.8);
+  margin-bottom: 10px;
+">
+  Home Tutor Search & Booking System
+</h1>
+
+<p style="
+  font-size: 1.2rem;
+  color: #cfcfcf;
+  letter-spacing: 1px;
+">
+  Smart • Fast • Modern Tutor Booking Platform
+</p>
+
+<img src="https://readme-typing-svg.herokuapp.com?font=Poppins&size=24&duration=3000&pause=1000&color=00F5FF&center=true&vCenter=true&width=700&lines=Find+Qualified+Tutors+Easily;Book+Sessions+in+Seconds;Modern+Education+Management+System" />
 
 ### A full-stack web application for discovering tutors, managing bookings, and running student-tutor-admin workflows.
 
