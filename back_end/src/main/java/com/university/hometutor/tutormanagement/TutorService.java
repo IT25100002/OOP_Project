@@ -1,5 +1,6 @@
 package com.university.hometutor.tutormanagement;
 
+import com.university.hometutor.booking.BookingMethods;
 import com.university.hometutor.booking.BookingService;
 
 import com.university.hometutor.searchandfilter.BinarySearchTree;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class TutorService {
+public class TutorService extends TutorMethods {
 
     @Autowired
     private TutorProfileRepository tutorProfileRepository;
@@ -42,6 +43,7 @@ public class TutorService {
     @Lazy
     private MassageService massageService;
 
+    @Override
     public List<TutorProfile> getAllTutors() {
         return tutorProfileRepository.findAll();
     }
@@ -54,6 +56,7 @@ public class TutorService {
     }
 
     // Use Custom DSA 2: Binary Search Tree to filter by rating efficiently
+    @Override
     public List<TutorProfile> getHighlyRatedTutors(double minRating) {
         List<TutorProfile> tutors = tutorProfileRepository.findAll();
         BinarySearchTree bst = new BinarySearchTree();
@@ -67,6 +70,7 @@ public class TutorService {
     }
 
     // Filter an already-fetched list by minimum rating using BST (DSA)
+
     public List<TutorProfile> filterByMinRating(List<TutorProfile> tutors, double minRating) {
         BinarySearchTree bst = new BinarySearchTree();
         for (TutorProfile tutor : tutors) {
@@ -77,11 +81,13 @@ public class TutorService {
         return bst.findHighlyRated(minRating);
     }
 
+    @Override
     public List<TutorProfile> searchTutorsBySubject(String subject) {
         return tutorProfileRepository.findBySubjectContainingIgnoreCase(subject);
     }
 
     // Get all distinct subjects for the filter dropdown
+    @Override
     public List<String> getDistinctSubjects() {
         return tutorProfileRepository.findAll().stream()
                 .map(TutorProfile::getSubject)
@@ -91,6 +97,7 @@ public class TutorService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public TutorProfile getTutorById(Long id) {
         return tutorProfileRepository.findById(id).orElse(null);
     }
@@ -102,6 +109,7 @@ public class TutorService {
                 .orElse(null);
     }
 
+    @Override
     public void updateTutorRating(Long tutorId, double newAverage) {
         TutorProfile tutor = getTutorById(tutorId);
         if (tutor != null) {
@@ -111,6 +119,7 @@ public class TutorService {
     }
 
     // Delete a tutor profile by id (used by admin REST endpoint)
+    @Override
     @Transactional
     public void deleteTutor(Long id) {
         TutorProfile tutor = getTutorById(id);
@@ -139,6 +148,7 @@ public class TutorService {
         }
     }
 
+    @Override
     public TutorProfile updateTutor(Long id, TutorProfile updatedTutor) {
         return tutorProfileRepository.findById(id)
                 .map(tutor -> {
