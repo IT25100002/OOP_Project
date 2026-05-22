@@ -1,6 +1,7 @@
 package com.university.hometutor.messaging;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,8 +19,7 @@ import com.university.hometutor.messaging.MassageService;
 
 @RestController
 @RequestMapping("/api/contact")
-@CrossOrigin(origins = { "http://localhost:5173", "http://152.42.157.191",
-        "https://hometutor-mu.vercel.app" }, originPatterns = { "https://*.vercel.app" })
+
 public class MassageRestController {
 
     @Autowired
@@ -43,6 +43,7 @@ public class MassageRestController {
         }
     }
 
+    // access by the admin to delete
     @DeleteMapping("/{id}")
     public Massage deleteMassage(@PathVariable Long id) {
         try {
@@ -53,8 +54,9 @@ public class MassageRestController {
         }
     }
 
+    //   only access by the Admin
     @PutMapping("/{id}/status")
-    public Massage updateMassageStatus(@PathVariable Long id, @RequestBody java.util.Map<String, String> request) {
+    public Massage updateMassageStatus(@PathVariable Long id, @RequestBody Map<String, String> request) {
         try {
             String status = request.get("status");
             return massageService.updateMassageStatus(id, status);

@@ -15,6 +15,7 @@ public class MassageService {
     @Autowired
     private MassageRepository massageRepository;
 
+    //creating a massage
     public Massage createMassage(Massage massage) {
         try{
             
@@ -26,6 +27,7 @@ public class MassageService {
         }
     }
 
+    //updating a massage
     public Massage updateMassageStatus(Long id, String status) {
         try {
             Massage existingMassage = massageRepository.findById(id).orElseThrow(() -> new RuntimeException("Massage not found"));
@@ -36,10 +38,12 @@ public class MassageService {
         }
     }
 
+    //return all the massages
     public List<Massage> getMassages() {
         return massageRepository.findAll();
     }
 
+    //delete the massage can be done only by admin
     public void deleteMassage(Long id) {
         try {
             massageRepository.deleteById(id);
