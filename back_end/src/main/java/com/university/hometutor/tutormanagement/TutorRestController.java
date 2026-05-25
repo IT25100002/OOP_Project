@@ -18,10 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * REST controller exposing tutor data to the React frontend.
- * All endpoints return plain JSON — no JWT, no authentication required.
- */
+
 @RestController
 @RequestMapping("/api/tutors")
 public class TutorRestController {
@@ -59,6 +56,7 @@ public class TutorRestController {
 
         // 1. Start with all tutors or filtered by subject
         List<TutorProfile> tutors;
+
         if (subject != null && !subject.isBlank()) {
             tutors = tutorService.searchTutorsBySubject(subject);
         } else {
@@ -107,9 +105,7 @@ public class TutorRestController {
         return ResponseEntity.ok(tutorToMap(tutor));
     }
 
-    // -------------------------------------------------------------------
     // DELETE /api/tutors/{id} (admin only — no auth check here, trust frontend)
-    // -------------------------------------------------------------------
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTutor(@PathVariable Long id) {
         try {
@@ -130,10 +126,10 @@ public class TutorRestController {
         }
     }
 
-    // -------------------------------------------------------------------
+
     // GET /api/tutors/my-bookings?userId={userId}
     // Returns all bookings for the tutor associated with the given user id.
-    // -------------------------------------------------------------------
+
     @GetMapping("/my-bookings")
     public ResponseEntity<?> getMyBookings(@RequestParam Long userId) {
         TutorProfile profile = tutorService.getTutorByUserId(userId);
